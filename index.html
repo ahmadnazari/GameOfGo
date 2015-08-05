@@ -1,57 +1,198 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8"/>
-    <title>GO</title>
-    <link rel="stylesheet" type="text/css" href="css/game.css">
+	<!-- Copyright Zygomatic.nl -->
+	<!-- Programming by CodeHospital.com & WebGear.nl -->
+	<meta charset="utf-8">
+	<title>Game of Go</title>
+	<meta name="date" content="2015-06-24">
+	<meta name="gameCats" content="Classic,Mind">
+	<meta property="og:type" content="game">
+	<meta property="og:title" content="Game of Go">
+	<!-- <meta property="og:image" content="http://cdn.htmlgames.com/ConnectFour/img/icon/image-300x200.jpg"> -->
+	<meta property="og:description" content="Classic pente game. Be the first player to pente of your stones (horizontally, vertically or diagonally).">
+	<meta name="viewport" content="initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=0,width=device-width">
 
-    <script src="js/phaser.min.js"></script>
-    <script src="js/Manager.js"></script>
-    <script src="js/underscore-min.js"></script>
-    <script src="js/Gaussian.js"></script>
-    <script src="js/Logic.js"></script>
-    <script src="js/jquery-1.11.3.min.js"></script>
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="msapplication-tap-highlight" content="no">
 
+	<link rel="shortcut icon" sizes="196x196" href="img/icon/icon-196x196.png">
+	<link rel="apple-touch-icon" href="img/icon/icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="img/icon/icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="img/icon/icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="img/icon/icon-152x152.png">
 
+	<!-- stylesheets -->
+	<link rel="stylesheet" href="css/zygomatic.css" type="text/css">
+	<link rel="stylesheet" href="css/addtohomescreen.css" type="text/css">
+	<link rel="stylesheet" href="css/game.css" type="text/css">
+	<!-- /stylesheets -->
+
+	<!-- // <script src="http://api.zygomatic.nl/js/zygomatic-game.js"></script> -->
+	<script src="js/ThirdParty.js"></script>
+	<script src="js/jquery-2.1.3.min.js"></script>
+	<script src="js/words.en.js"></script>
+	<!-- javascripts -->
+	<script src="js/webfont.js"></script>
+	<script src="js/GameConfig.js"></script>
+	<script src="js/GameLib-ext.js"></script>
+	<script src="js/Game.js"></script>
+	<script src="js/hammer.js"></script>
+	<script src="js/howler.js"></script>
+	<script src="js/GameIdle.js"></script>
+	<script src="js/screenfull.js"></script>
+	<script src="js/addtohomescreen.min.js"></script>
+	<script src="js/GameSound.js"></script>
+	<script src="js/GameAds.js"></script>
+	<script src="js/GameAnalytics.js"></script>
+	<!-- /javascripts -->
 </head>
 <body>
 
-<script type="text/javascript">
-    window.onload = function () {
-        Manager(window.innerWidth, window.innerHeight);
-    }
-</script>
+<div id="adContainer"><div id="timeLeft"></div></div>
+<div id="gameContainer">
 
-<div id="game">
-    <div id="controls">
-        <div id="gameMode">
-            <a id="easy" class="myButton" onclick="changeMode('beginner')">beginner</a>
-            <br>
-            <a id="medium" class="myButton" onclick="changeMode('medium')">medium</a>
-            <br>
-            <a id="hard" class="myButton" onclick="changeMode('advanced')">advanced</a>
-            <br>
-            <span id="gameModeText">beginner</span>
-        </div>
-        <hr>
-        <div id="statuss">
-            <span id="AIThink"></span>
-            <br>
-            <span id="message"></span>
-        </div>
-        <hr>
-        <div id="start">
-            <a id="Pass" class="myButton" onclick="pass()">pass</a>
-            <br>
-            <a id="resetWhite" class="myButton" onclick="resetWhite()">new game</a>
-            <br>
-            <a id="resetBlack" class="myButton" onclick="resetBlack()">new game</a>
-        </div>
+   <div id="loading"></div>
 
-    </div>
-    <div id="gameBoard">
-    </div>
+	<div id="menuDiv">
+
+		<div class="menuButs">
+			<button type="button" class="green awesome" onclick="Game.startGame('easy')" lang="word(118)"><!--Simple--></button>
+			<button type="button" class="yellow awesome" onclick="Game.startGame('medium')" lang="word(119)"><!--Easy--></button>
+			<button type="button" class="red awesome" onclick="Game.startGame('hard')" lang="word(120)"><!--Hard--></button>
+
+			<table id="handiSelect">
+			<tbody>
+			<tr>
+				<td onclick="Game.setHandi(0)"><div style="background-position:-180px 0"></div>handi 0</td>
+				<td onclick="Game.setHandi(2)"><div style="background-position:0 0"></div>handi 2</td>
+			</tr><tr>
+				<td onclick="Game.setHandi(3)"><div style="background-position:-60px 0"></div>handi 3</td>
+				<td onclick="Game.setHandi(4)"><div style="background-position:-140px 0"></div>handi 4</td>
+			</tr><tr>
+				<td onclick="Game.setHandi(5)"><div style="background-position:-80px 0"></div>handi 5</td>
+				<td onclick="Game.setHandi(6)"><div style="background-position:-120px 0"></div>handi 6</td>
+			</tr><tr>
+				<td onclick="Game.setHandi(7)"><div style="background-position:-40px 0"></div>handi 7</td>
+				<td onclick="Game.setHandi(8)"><div style="background-position:-160px 0"></div>handi 8</td>
+			</tr><tr>
+				<td onclick="Game.setHandi(9)"><div style="background-position:-200px 0"></div>handi 9</td>
+			</tr>
+			</tbody>
+			<tfoot>
+			<tr>
+				<td id = "selectedHandi" colspan="2"><div style="background-position:-20px 0"></div>handi 0</td>
+			</tr>
+			</tfoot>
+			</table>
+
+		</div><!--/.menuButs-->
+
+		<div class="menuButs2">
+			<button type="button" class="awesome" onclick="Game.showHelp()" lang="word(7)"><!--Help--></button>
+			<button type="button" class="awesome" onclick="GameLib.moreGames()" lang="word(18)"><!--More games--></button>
+		</div><!--/.menuButs2-->
+
+		<table id="langSelect">
+		<tbody>
+		<tr>
+			<td data-lang="en"><div class="flag" style="background-position:-180px 0"></div>English</td>
+			<td data-lang="nl"><div class="flag" style="background-position:0 0"></div>Nederlands</td>
+		</tr><tr>
+			<td data-lang="es"><div class="flag" style="background-position:-60px 0"></div>Español</td>
+			<td data-lang="pt"><div class="flag" style="background-position:-140px 0"></div>Português</td>
+		</tr><tr>
+			<td data-lang="fr"><div class="flag" style="background-position:-80px 0"></div>Français</td>
+			<td data-lang="it"><div class="flag" style="background-position:-120px 0"></div>Italiano</td>
+		</tr><tr>
+			<td data-lang="de"><div class="flag" style="background-position:-40px 0"></div>Deutsch</td>
+			<td data-lang="ru"><div class="flag" style="background-position:-160px 0"></div>Русский</td>
+		</tr><tr>
+			<td data-lang="in"><div class="flag" style="background-position:-100px 0"></div>Hinglish</td>
+			<td data-lang="pl"><div class="flag" style="background-position:-200px 0"></div>Polski</td>
+		</tr><tr>
+			<td data-lang="tr"><div class="flag" style="background-position:-220px 0"></div>Türkçe</td>
+		</tr>
+		</tbody>
+		<tfoot>
+		<tr>
+			<td colspan="2"><div class="flag" style="background-position:-20px 0"></div>English</td>
+		</tr>
+		</tfoot>
+		</table>
+
+	</div><!--/.menuDiv-->
+
+	<div id="gameDiv">
+
+		<div id="gameBoard">
+			<div id="pegsDiv"></div>
+			<div id="overlayDiv"></div>
+		</div>
+
+		<div id="gameMenu">
+
+			<div class="header">
+				<img src="img/GO-small.png" alt="Game of Go" width="200" height="21">
+				<div id="difficulty"></div>
+			</div>
+
+			<div class="fancy">
+				<p>
+					<button class="large awesome black" onclick="Game.restart(-1)" style="width:55%" lang="word(172)"><!-- Start As Black --></button>
+				</p>
+				<p>
+					<button class="large awesome white" onclick="Game.restart(1)" style="width:55%" lang="word(173)"><!-- Start As White --></button>
+				</p>
+				<p>
+					<button class="large awesome yellow" onclick="Game.pass()" style="width:55%" lang="word(175)"><!-- Pass --></button>
+				</p>
+				<p id = "playerInfo">
+					<span lang="word(174)"></span>:
+					<img id="playerImg" src="img/white.gif" width="40" height="40" align="absmiddle">
+				</p>
+				<p>
+					<span id="message"></span>
+				</p>
+			</div>
+
+			<div class="fancy" style="position:absolute;left:0;width:100%;font-size:24px">
+				<div id="yourTurn" lang="word(177)" style="position:absolute;width:100%;left:0;top:0;text-align:center;display:none"><!-- Your turn --></div>
+				<div id="myTurn" style="position:absolute;width:100%;left:0;top:0;text-align:center">
+					<img src="img/ajax-loader.gif" width="16" height="16">
+					<span lang="word(176)"><!-- My turn --></span>
+				</div>
+				<div id="youWin" lang="word(179)" style="position:absolute;width:100%;left:0;top:0;text-align:center;display:none;color:green"><!-- You win --></div>
+				<div id="youLoose" lang="word(178)" style="position:absolute;width:100%;left:0;top:0;text-align:center;display:none;color:red"><!-- You loose --></div>
+				<div id="draw" lang="word(180)" style="position:absolute;width:100%;left:0;top:0;text-align:center;display:none;color:yellow"><!-- draw --></div>
+			</div>
+
+			<div style="position:absolute;left:0;bottom:50px;width:100%;text-align:center">
+				<div class="sprite pause" onclick="Game.pause()" lang="title:word(5)"></div>
+				<div class="sprite restart" onclick="Game.restart()" lang="title:word(103)"></div>
+			</div>
+
+			<div class="audio" style="position:absolute;left:0;bottom:0;width:100%;text-align:center">
+				<div class="sprite music on" lang="title:word(11)" onclick="Game.toggleMusic()"></div>
+				<div class="sprite sound on" lang="title:word(12)" onclick="Game.toggleSound()"></div>
+			</div>
+
+		</div><!--/#gameMenu-->
+
+	</div><!--/#gameDiv-->
+
 </div>
+
+<div id="rotateHint">
+   <h2 lang="word(14)"><!--Please rotate your device--></h2>
+   <img class="rotate" src="img/rotate.png" lang="alt:word(14)">
+	<img id="rotateClose" src="img/close.png" alt="X">
+</div>
+
+<script>
+	var gameName = document.title;
+	GameLib.init(gameName, 800,480);
+</script>
 </body>
 </html>
-

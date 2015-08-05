@@ -1,7 +1,6 @@
-
-function Logic(manager)
+importScripts('Gaussian.js');
+function Logic()
 {
-    this.manager = manager;
     this.message = "";
     this.handicap = 0;
     this.niveau = 1;
@@ -139,6 +138,7 @@ function Logic(manager)
         this.message = "";
         this.speelbaar = true;
         this.showScore = false;
+        this.winner = null;
         for(var i = 0; i < 6; i++)
         {
             for(var j2 = 0; j2 < 361; j2++)
@@ -322,35 +322,35 @@ function Logic(manager)
         this.board[3][1] = -2;
         switch(this.handicap)
         {
-        case 8: // '\b'
-        case 9: // '\t'
-            this.pHS(66);
-            this.pHS(294);
+            case 8: // '\b'
+            case 9: // '\t'
+                this.pHS(66);
+                this.pHS(294);
             // fall through
 
-        case 6: // '\006'
-        case 7: // '\007'
-            this.pHS(174);
-            this.pHS(186);
+            case 6: // '\006'
+            case 7: // '\007'
+                this.pHS(174);
+                this.pHS(186);
             // fall through
 
-        case 5: // '\005'
-            if(this.handicap != 6 && this.handicap != 8)
-                this.pHS(180);
+            case 5: // '\005'
+                if(this.handicap != 6 && this.handicap != 8)
+                    this.pHS(180);
             // fall through
 
-        case 4: // '\004'
-            this.pHS(60);
+            case 4: // '\004'
+                this.pHS(60);
             // fall through
 
-        case 3: // '\003'
-            this.pHS(300);
+            case 3: // '\003'
+                this.pHS(300);
             // fall through
 
-        case 2: // '\002'
-            this.pHS(72);
-            this.pHS(288);
-            break;
+            case 2: // '\002'
+                this.pHS(72);
+                this.pHS(288);
+                break;
         }
         if(this.board[3][5] == 1)
             this.startAI();
@@ -358,7 +358,6 @@ function Logic(manager)
 
     this.pHS = function(i)
     {
-       this.manager.drawTiles(this.board[0]);
         this.board[3][5] = this.board[3][8];
         this.applymove(this.board, i, true, false);
     }
@@ -368,7 +367,7 @@ function Logic(manager)
         if(this.board[3][5] == 1)
             if(this.board[3][0] == 361)
             {
-                this.message = "Je past. Einde spel.";
+                this.message = "player passed endOfGame";
                 this.endOfGame();
                 this.board[3][11] = 0;
             } else
@@ -383,6 +382,7 @@ function Logic(manager)
 
     this.mouseClicked = function(k, l)
     {
+        var canDrop = true;
         if(!this.speelbaar)
             return;
         this.board[3][5] = 0;
@@ -418,10 +418,14 @@ function Logic(manager)
                 this.suicide = false;
             if(this.board[0][this.lni[this.boardpos]] == -this.player && this.board[2][this.lni[this.boardpos]] == 1)
                 this.suicide = false;
-            if(this.suicide)
-                this.message = "Geen zelfmoord!";
-            if(this.board[3][6] == this.boardpos)
-                this.message = "Ko-regel!";
+            if(this.suicide){
+                this.message = "suicide";
+                canDrop = false;
+            }
+            if(this.board[3][6] == this.boardpos){
+                this.message = "Ko";
+                canDrop = false;
+            }
             if(!this.suicide && this.board[3][6] != this.boardpos)
             {
                 this.message = "";
@@ -439,11 +443,11 @@ function Logic(manager)
                     this.oldmessage = this.message;
                 }
                 this.applymove(this.board, this.boardpos, true, false);
-               this.manager.drawTiles(this.board[0]);
-               setTimeout(function(_this){return function(){_this.startAI() }}(this) , 100);
+                // this.drawTiles(this.board[0]);
+                setTimeout(function(_this){return function(){_this.startAI() }}(this) , 100);
             }
         }
-       this.manager.drawTiles(this.board[0]);
+        this.drawTiles(this.board[0], canDrop);
     }
 
 
@@ -451,41 +455,41 @@ function Logic(manager)
     {
         switch(this.niveau)
         {
-        case 1: // '\001'
-            this.boardpos = this.findmovebasic();
-            break;
+            case 1: // '\001'
+                this.boardpos = this.findmovebasic();
+                break;
 
-        case 2: // '\002'
-            this.boardpos = this.findmove();
-            break;
+            case 2: // '\002'
+                this.boardpos = this.findmove();
+                break;
 
-        case 3: // '\003'
-            this.boardpos = this.findmoveadvanced();
-            break;
+            case 3: // '\003'
+                this.boardpos = this.findmoveadvanced();
+                break;
         }
         if(this.boardpos != 361)
             this.applymove(this.board, this.boardpos, true, false);
         else
         if(this.board[3][1] == 361 && this.board[3][9] > 0)
         {
-            this.message = "De computer past. Einde spel.";
+            this.message = "computer passed endOfGame";
             this.endOfGame();
         } else
         {
-            this.message = "De computer past.";
+            this.message = "pass";
             this.applymove(this.board, this.boardpos, true, false);
         }
-       this.manager.drawTiles(this.board[0]);
+        this.drawTiles(this.board[0], true);
     }
 
     this.endOfGame = function()
     {
         this.speelbaar = false;
-               this.manager.drawTiles(this.board[0]);
+        this.drawTiles(this.board[0], true);
         this.makeverdict();
-        this.wait(1500);
+        // this.wait(1500);
         this.showScore = true;
-               this.manager.drawTiles(this.board[0]);
+        this.drawTiles(this.board[0], true);
     }
 
     this.findmovebasic = function()
@@ -809,36 +813,36 @@ function Logic(manager)
                     i = 512 + Math.floor(0.99 * ((j >> 1) - 512));
                 switch(ai[0][l])
                 {
-                default:
-                    break;
-
-                case 0: // '\0'
-                    ai[4][l] = i;
-                    if(this.bfeatures[7][l])
-                        if(ai[3][5] == 1)
-                            ai[4][l] = 1024 - Math.floor(0.69999999999999996 * (1024 - ai[4][l]));
-                        else
-                            ai[4][l] = Math.floor(0.69999999999999996 * ai[4][l]);
-                    if(this.bfeatures[8][l])
-                        if(ai[4][l] < 512)
-                            ai[4][l] = Math.floor(1.1000000000000001 * ai[4][l]);
-                        else
-                            ai[4][l] = Math.floor(102.40000000000001 + ai[4][l] * 0.90000000000000002);
-                    if(!this.bfeatures[9][l])
+                    default:
                         break;
-                    if(ai[4][l] < 512)
-                        ai[4][l] = Math.floor(0.90000000000000002 * ai[4][l]);
-                    else
-                        ai[4][l] = Math.floor(-102.40000000000001 + ai[4][l] * 1.1000000000000001);
-                    break;
 
-                case 1: // '\001'
-                    ai[4][l] = ai[5][l] + ((1024 - ai[5][l]) * i >> 10);
-                    break;
+                    case 0: // '\0'
+                        ai[4][l] = i;
+                        if(this.bfeatures[7][l])
+                            if(ai[3][5] == 1)
+                                ai[4][l] = 1024 - Math.floor(0.69999999999999996 * (1024 - ai[4][l]));
+                            else
+                                ai[4][l] = Math.floor(0.69999999999999996 * ai[4][l]);
+                        if(this.bfeatures[8][l])
+                            if(ai[4][l] < 512)
+                                ai[4][l] = Math.floor(1.1000000000000001 * ai[4][l]);
+                            else
+                                ai[4][l] = Math.floor(102.40000000000001 + ai[4][l] * 0.90000000000000002);
+                        if(!this.bfeatures[9][l])
+                            break;
+                        if(ai[4][l] < 512)
+                            ai[4][l] = Math.floor(0.90000000000000002 * ai[4][l]);
+                        else
+                            ai[4][l] = Math.floor(-102.40000000000001 + ai[4][l] * 1.1000000000000001);
+                        break;
 
-                case -1: 
-                    ai[4][l] = (1024 - ai[5][l]) * i >> 10;
-                    break;
+                    case 1: // '\001'
+                        ai[4][l] = ai[5][l] + ((1024 - ai[5][l]) * i >> 10);
+                        break;
+
+                    case -1:
+                        ai[4][l] = (1024 - ai[5][l]) * i >> 10;
+                        break;
                 }
             }
 
@@ -851,17 +855,17 @@ function Logic(manager)
         for(var i2 = 0; i2 < 361; i2++)
             switch(ai[0][i2])
             {
-            case 0: // '\0'
-                this.finalscores[i2] = ai[4][i2];
-                break;
+                case 0: // '\0'
+                    this.finalscores[i2] = ai[4][i2];
+                    break;
 
-            case 1: // '\001'
-                this.finalscores[i2] = this.finalprobs[i2];
-                break;
+                case 1: // '\001'
+                    this.finalscores[i2] = this.finalprobs[i2];
+                    break;
 
-            case -1: 
-                this.finalscores[i2] = 1024 - this.finalprobs[i2];
-                break;
+                case -1:
+                    this.finalscores[i2] = 1024 - this.finalprobs[i2];
+                    break;
             }
 
         for(var j2 = 0; j2 < 10; j2++)
@@ -1126,17 +1130,17 @@ function Logic(manager)
                         j1 = 512 + Math.floor(0.99 * ((k1 >> 1) - 512));
                     switch(ai[0][i1])
                     {
-                    case 0: // '\0'
-                        ai[4][i1] = j1;
-                        break;
+                        case 0: // '\0'
+                            ai[4][i1] = j1;
+                            break;
 
-                    case 1: // '\001'
-                        ai[4][i1] = ai[5][i1] + ((1024 - ai[5][i1]) * j1 >> 10);
-                        break;
+                        case 1: // '\001'
+                            ai[4][i1] = ai[5][i1] + ((1024 - ai[5][i1]) * j1 >> 10);
+                            break;
 
-                    case -1: 
-                        ai[4][i1] = (1024 - ai[5][i1]) * j1 >> 10;
-                        break;
+                        case -1:
+                            ai[4][i1] = (1024 - ai[5][i1]) * j1 >> 10;
+                            break;
                     }
                 }
 
@@ -1669,20 +1673,20 @@ function Logic(manager)
                         l1 = 0;
                     switch(l2)
                     {
-                    case 1: // '\001'
-                        l1 /= 2;
-                        break;
+                        case 1: // '\001'
+                            l1 /= 2;
+                            break;
 
-                    case 2: // '\002'
-                        l1 /= 4;
-                        break;
+                        case 2: // '\002'
+                            l1 /= 4;
+                            break;
 
-                    default:
-                        l1 = 0;
-                        break;
+                        default:
+                            l1 = 0;
+                            break;
 
-                    case 0: // '\0'
-                        break;
+                        case 0: // '\0'
+                            break;
                     }
                     this.groupscores[i5][4][j4] += l1;
                     this.groupscores[i5][0][j4] += l1;
@@ -1728,25 +1732,25 @@ function Logic(manager)
                     i2 = 0;
                 switch(i3)
                 {
-                case 0: // '\0'
-                    this.groupscores[i5][4][j4] += i2;
-                    break;
+                    case 0: // '\0'
+                        this.groupscores[i5][4][j4] += i2;
+                        break;
 
-                case 1: // '\001'
-                    this.groupscores[i5][4][j4] += i2 / 2;
-                    break;
+                    case 1: // '\001'
+                        this.groupscores[i5][4][j4] += i2 / 2;
+                        break;
 
-                case 2: // '\002'
-                    this.groupscores[i5][4][j4] += i2 / 3;
-                    break;
+                    case 2: // '\002'
+                        this.groupscores[i5][4][j4] += i2 / 3;
+                        break;
 
-                case 3: // '\003'
-                    this.groupscores[i5][4][j4] += i2 / 4;
-                    break;
+                    case 3: // '\003'
+                        this.groupscores[i5][4][j4] += i2 / 4;
+                        break;
 
-                default:
-                    this.groupscores[i5][4][j4] += i2 / 6;
-                    break;
+                    default:
+                        this.groupscores[i5][4][j4] += i2 / 6;
+                        break;
                 }
                 if(i3 > 1 && ai[3][5] == i5 && this.groupscores[i5][3][j4] < i2 / 3)
                     this.groupscores[i5][3][j4] = i2 / 3;
@@ -4367,38 +4371,38 @@ function Logic(manager)
         }
 
         label0:
-        for(var k1 = 0; k1 < 361; k1++)
-        {
-            if(ai[0][k1] == 0)
-                continue;
-            var i = k1 % 19;
-            var j = k1 / 19;
-            var i2 = i - 4;
-            do
+            for(var k1 = 0; k1 < 361; k1++)
             {
-                if(i2 > i + 4)
-                    continue label0;
-                for(var j2 = j - 4; j2 < j + 4; j2++)
+                if(ai[0][k1] == 0)
+                    continue;
+                var i = k1 % 19;
+                var j = k1 / 19;
+                var i2 = i - 4;
+                do
                 {
-                    if(i2 < 0 || j2 < 0 || i2 >= 19 || j2 >= 19)
-                        continue;
-                    var i1 = 19 * j2 + i2;
-                    var k = i - i2;
-                    if(k < 0)
-                        k = -k;
-                    var l = j - j2;
-                    if(l < 0)
-                        l = -l;
-                    k += l;
-                    if(ai[0][k1] == 1 && this.distances[1][i1] > k)
-                        this.distances[1][i1] = k;
-                    if(ai[0][k1] == -1 && this.distances[0][i1] > k)
-                        this.distances[0][i1] = k;
-                }
+                    if(i2 > i + 4)
+                        continue label0;
+                    for(var j2 = j - 4; j2 < j + 4; j2++)
+                    {
+                        if(i2 < 0 || j2 < 0 || i2 >= 19 || j2 >= 19)
+                            continue;
+                        var i1 = 19 * j2 + i2;
+                        var k = i - i2;
+                        if(k < 0)
+                            k = -k;
+                        var l = j - j2;
+                        if(l < 0)
+                            l = -l;
+                        k += l;
+                        if(ai[0][k1] == 1 && this.distances[1][i1] > k)
+                            this.distances[1][i1] = k;
+                        if(ai[0][k1] == -1 && this.distances[0][i1] > k)
+                            this.distances[0][i1] = k;
+                    }
 
-                i2++;
-            } while(true);
-        }
+                    i2++;
+                } while(true);
+            }
 
         for(var l1 = 0; l1 < 361; l1++)
         {
@@ -4517,12 +4521,12 @@ function Logic(manager)
                     this.verdict[j2] = -1;
                     j++;
                 }
-                if(verdict[j2] == 0 && this.finalscores[j2] - this.board[4][j2] > 204)
+                if(this.verdict[j2] == 0 && this.finalscores[j2] - this.board[4][j2] > 204)
                 {
                     this.verdict[j2] = 1;
                     i++;
                 }
-                if(verdict[j2] == 0 && this.board[4][j2] - this.finalscores[j2] > 204)
+                if(this.verdict[j2] == 0 && this.board[4][j2] - this.finalscores[j2] > 204)
                 {
                     this.verdict[j2] = -1;
                     j++;
@@ -4533,7 +4537,7 @@ function Logic(manager)
                 var flag1 = false;
                 if(this.finalprobs[j2] > 409)
                     flag1 = true;
-                if(finalscores[j2] - this.board[4][j2] > 204)
+                if(this.finalscores[j2] - this.board[4][j2] > 204)
                     flag1 = true;
                 if(flag1)
                 {
@@ -4546,7 +4550,7 @@ function Logic(manager)
                 }
                 break;
 
-            case -1: 
+            case -1:
                 var flag2 = false;
                 if(this.finalprobs[j2] > 409)
                     flag2 = true;
@@ -4570,11 +4574,48 @@ function Logic(manager)
                 f = (f - 6.5);
             else
                 f = (f + 6.5);
-        if(f > 0.0)
-            this.message = "De computer wvar met " + f + " punt verschil.";
-        if(f == 0.0)
-            this.message = "Gelijkspel!";
-        if(f < 0.0)
-            this.message = "Jij wvar met " + -f + " punt verschil.";
+        if(f > 0.0){
+            // this.message = "De computer wvar met " + f + " punt verschil.";
+            this.message = f;
+            this.winner = "computer";
+        }
+        if(f == 0.0){
+            // this.message = "Gelijkspel!";
+            this.message = "";
+            this.winner = "draw";
+        }
+        if(f < 0.0){
+            this.message = f;
+            // this.message = "Jij wvar met " + -f + " punt verschil.";
+            this.winner = "player";
+        }
+    }
+
+    this.drawTiles = function(board, canDrop)
+    {
+        self.postMessage({board:board, message:this.message, winner:this.winner, canDrop:canDrop});
     }
 }
+
+
+var logic = new Logic;
+logic.nieuwSpel(1);
+    self.addEventListener('message', function(data) {
+        var m = data.data;
+            logic.handicap = m['handicap'];
+        if (m['pass']) {
+            logic.pass();
+        }
+        else{
+            logic.niveau = m['level'];
+            if (m['reset'])
+            logic.nieuwSpel(m['turn']);
+
+        else{
+            var col = m['col'];
+            var row = m['row'];
+            logic.mouseClicked(col, row);
+        }
+    }
+});
+

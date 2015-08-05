@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Share</title>
+<link rel="stylesheet" type="text/css" href="css/popup.css"> 
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<style type="text/css">
+
+body {
+	padding: 10px;
+}
+
+.share {
+	display: block;
+	width: 200px;
+	margin: 0 auto;
+	background: #dedede;
+	color: #232323;
+	border-radius: 5px;
+	padding: 1em 0;
+	border: 1px solid #444;
+	text-align: center;
+	font-weight: 700;
+	text-transform: uppercase;
+	text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+.share:hover {
+	background: #fff;
+}
+
+a {
+	font-size: 20px;
+	text-decoration: none;
+	color: #dedede;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+a:hover {
+	color: #fff;
+	text-shadow: 0 0 5px #f00;
+}
+
+</style>
+<script>
+
+function getDescription()
+{
+	var content, doc = parent.document;
+	if (content = doc.querySelector('meta[property="og:description"]') || doc.querySelector('meta[name="description"]')) {
+		return content.getAttribute('content');
+	}
+	return '';
+}
+
+function getImage()
+{
+	var content, doc = parent.document;
+	if (content = doc.querySelector('meta[property="og:image"]')) {
+		return content.getAttribute('content');
+	}
+	return '';
+};
+
+function share(what) 
+{
+	var shareLink = parent.location,
+       shareTitle = parent.document.title,
+	    shareDescription = getDescription(),
+	    shareMedia = getImage(),
+	    url;
+
+	switch(what) {
+		case 'facebook':
+			url = '//www.facebook.com/share.php?m2w&s=100&p[url]=' + encodeURIComponent(shareLink) + '&p[images][0]=' + encodeURIComponent(shareMedia) + '&p[title]=' + encodeURIComponent(shareTitle) + '&p[summary]=' + encodeURIComponent(shareDescription);
+			break;
+		case 'twitter':
+			url = 'https://twitter.com/intent/tweet?original_referer=' + encodeURIComponent(shareLink) + '&text=' + encodeURIComponent(shareTitle) + '%20' + encodeURIComponent(shareLink);
+			break;
+		case 'pinterest':
+			url = '//pinterest.com/pin/create/button/?url=' + encodeURIComponent(shareLink) + '&media=' + encodeURIComponent(shareMedia) + '&description=' + encodeURIComponent(shareTitle);
+			break;
+		case 'linkedin':
+			url = '//www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(shareLink) + '&title=' + encodeURIComponent(shareTitle) + '&source=' + encodeURIComponent(shareLink);
+			break;
+		case 'googleplus':
+			url = '//plus.google.com/share?url=' + encodeURIComponent(shareLink);
+			break;
+	}
+	window.open(url, 'Share', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
+
+	return false;
+}
+
+</script>
+</head>
+<body>
+<table cellpadding="20" style="margin:0 auto">
+<tr>
+	<td>
+		<a class="hideshare-facebook" href="#" onclick="return share('facebook')">
+		<i class="fa fa-facebook-square fa-2x"></i>
+		<span>Facebook</span>
+		</a>
+	</td>
+
+	<td>
+		<a class="hideshare-twitter" href="#" onclick="return share('twitter')">
+		<i class="fa fa-twitter-square fa-2x"></i>
+		<span>Twitter</span>
+		</a>
+	</td>
+
+</tr><tr>
+
+	<td>
+		<a class="hideshare-google-plus" href="#" onclick="return share('googleplus')">
+		<i class="fa fa-google-plus-square fa-2x"></i>
+		<span>Google Plus</span>
+		</a>
+	</td>
+
+	<td>
+		<a class="hideshare-pinterest" data-pin-config="above" data-pin-do="buttonPin" href="#" onclick="return share('pinterest')">
+		<i class="fa fa-pinterest-square fa-2x"></i>
+		<span>Pinterest</span>
+		</a>
+	</td>
+</tr></table>
+
+</body>
+</html>
