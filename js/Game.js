@@ -7,7 +7,7 @@ fonts: [],
 turn: -1,
 pegs: [],
 oldOldPegs: [],
-oldOldPegs: [],
+olderPegs: [],
 cells: [],
 pegSize: 25,
 last_move: [],
@@ -205,7 +205,7 @@ dropPeg: function(pos, message)
 							.css({left:(j*this.pegSize)+'px', top:(i * this.pegSize)+'px'})
 							.appendTo('#pegsDiv')
 				}
-				this.oldOldPegs[i][j] = this.oldPegs[i][j];
+				this.olderPegs[i][j] = this.oldPegs[i][j];
 				this.oldPegs[i][j] = this.pegs[i][j];
 				this.pegs[i][j] = pos[i][j];
 				if (this.addedRecently(i, j))
@@ -307,15 +307,15 @@ playAs: function(player)
 	}
 	this.pegs = new Array(19);
 	this.oldPegs = new Array(19);
-	this.oldOldPegs = new Array(19);
+	this.olderPegs = new Array(19);
 	for (var i = 0; i < 19; i++) {
 		this.pegs[i] = new Array(19);
 		this.oldPegs[i] = new Array(19);
-		this.oldOldPegs[i] = new Array(19);
+		this.olderPegs[i] = new Array(19);
 		for (var j = 0; j < 19; j++) {
 			this.pegs[i][j] = 0;
 			this.oldPegs[i][j] = 0;
-			this.oldOldPegs[i][j] = 0;
+			this.olderPegs[i][j] = 0;
 		};
 	};
 },
@@ -323,7 +323,7 @@ playAs: function(player)
 setStatus: function(text)
 {
 	if (GameConfig.debug) {
-		// console.log(text);
+		console.log(text);
 	}
 },
 
@@ -564,7 +564,7 @@ setMessage: function(message){
 addedRecently: function(x, y){
 	if (this.oldPegs[x][y] == 0 && this.pegs[x][y] != 0)
 		return true;
-	if (this.oldOldPegs[x][y] == 0 && this.oldPegs[x][y] != 0)
+	if (this.olderPegs[x][y] == 0 && this.oldPegs[x][y] != 0)
 		return true;
 	return false;
 },
