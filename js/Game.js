@@ -246,34 +246,39 @@ initWorker: function()
 {
 	var _this = this;
 	this.worker.addEventListener('message', function(data) {
-		$('#yourTurn,#myTurn,#youWin,#youLoose,#draw,#message,#playerInfo').hide();
 		var m = data.data;
-		if (m['message'] != ''){
-				$('#message').show();
-				// $('#playerInfo').hide();
-				$('#message').text(_this.setMessage(m['message']));
+		if (m['think']) {
+			console.log(m['think']);
+		}else{
+			$('#yourTurn,#myTurn,#youWin,#youLoose,#draw,#message,#playerInfo').hide();
+
+			if (m['message'] != ''){
+					$('#message').show();
+					// $('#playerInfo').hide();
+					$('#message').text(_this.setMessage(m['message']));
+				}
+				else{
+					// $('#message').hide();
+					$('#playerInfo').show();
+			}
+			if (m['winner'] != null) {
+				var winner = m['winner'];
+				// $('#yourTurn,#myTurn,#youWin,#youLoose,#draw').hide();
+				_this.win(winner, m['message']);
+
 			}
 			else{
-				// $('#message').hide();
-				$('#playerInfo').show();
-		}
-		if (m['winner'] != null) {
-			var winner = m['winner'];
-			// $('#yourTurn,#myTurn,#youWin,#youLoose,#draw').hide();
-			_this.win(winner, m['message']);
+				if (m['canDrop']) {
+					_this.turn*=-1;
 
-		}
-		else{
-			if (m['canDrop']) {
-				_this.turn*=-1;
-
-				if (_this.turn == _this.player) {
-				/*$('#myTurn').hide();*/ $('#yourTurn').show();
+					if (_this.turn == _this.player) {
+					/*$('#myTurn').hide();*/ $('#yourTurn').show();
+					}
+					else {
+						/*$('#yourTurn').hide();*/ $('#myTurn').show();
+					}
+					_this.dropPeg(m['board'], m['canDrop'])
 				}
-				else {
-					/*$('#yourTurn').hide();*/ $('#myTurn').show();
-				}
-				_this.dropPeg(m['board'], m['canDrop'])
 			}
 		}
 	})

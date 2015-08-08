@@ -534,6 +534,9 @@ function Logic()
 
             for(var k4 = 1; k4 <= this.candidates2[0]; k4++)
             {
+                progress = (k4 + (l2 - 1) * this.candidates2[0]) / ((this.candidates[0] + 1 ) * ( this.candidates2[0]));
+                self.postMessage({think:progress});
+
                 for(var k5 = 0; k5 < 6; k5++)
                 {
                     for(var i6 = 0; i6 < 361; i6++)
@@ -567,6 +570,8 @@ function Logic()
             if(j == this.candidates[i3])
                 flag = true;
 
+        
+
         if(!flag)
         {
             var j1 = 369664;
@@ -585,6 +590,9 @@ function Logic()
 
             for(var l3 = 1; l3 <= this.candidates2[0]; l3++)
             {
+                progress = (l3 + this.candidates[0] * this.candidates2[0]) / ((this.candidates[0] + 1 ) * ( this.candidates2[0]));
+                self.postMessage({think:progress});
+
                 for(var i5 = 0; i5 < 6; i5++)
                 {
                     for(var l5 = 0; l5 < 361; l5++)
@@ -626,6 +634,8 @@ function Logic()
             this.candidates[0] = 4;
         for(var j1 = 1; j1 <= this.candidates[0]; j1++)
         {
+            progress = j1 / this.candidates[0];
+            self.postMessage({think:progress});
             for(var i2 = 0; i2 < 6; i2++)
             {
                 for(var k2 = 0; k2 < 361; k2++)
@@ -700,6 +710,7 @@ function Logic()
         this.maketested(ai);
         for(var k1 = 0; k1 <= 361; k1++)
         {
+
             if(this.tested[k1])
                 this.scorelist[k1] = this.getscore(ai, k1);
             if(ai[3][0] >= 0 && ai[3][0] < 361 && this.penalty < 15 * (1024 - this.finalscores[ai[3][0]]))
