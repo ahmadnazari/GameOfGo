@@ -208,13 +208,10 @@ dropPeg: function(pos, message)
 				this.oldOldPegs[i][j] = this.oldPegs[i][j];
 				this.oldPegs[i][j] = this.pegs[i][j];
 				this.pegs[i][j] = pos[i][j];
-				if (this.addedRecently(i, j)) {
-					console.log("AddedRecently");
+				if (this.addedRecently(i, j))
 					$('#peg_' + j + '_' + i).css('border', 'thin red solid')
-				}else if (this.removedRecently) {
+				else if (this.removedRecently(i, j)) {
 
-					console.log('removedRecently');
-					
 					if (this.oldPegs[i][j]==1*this.computer) {
 						$('<img>', {id:'peg_' + j + '_' + i, 'class':'peg', src:'img/' + 'white'+ '.gif'})
 							.css({left:(j*this.pegSize)+'px', top:(i * this.pegSize)+'px'})
@@ -224,7 +221,7 @@ dropPeg: function(pos, message)
 							.css({left:(j*this.pegSize)+'px', top:(i * this.pegSize)+'px'})
 							.appendTo('#pegsDiv')
 					}
-
+					setTimeout(function() { GameSound.playSound(this.turn == Game.computer ? 'pegsdrop1' : 'pegsdrop2'); }, 8);
 					$('#peg_' + j + '_' + i).fadeOut(250).fadeIn(250).fadeOut(250).fadeIn(250).fadeOut(250, function() { $(this).remove(); })
 				}
 			}
@@ -251,7 +248,6 @@ initWorker: function()
 	this.worker.addEventListener('message', function(data) {
 		$('#yourTurn,#myTurn,#youWin,#youLoose,#draw,#message,#playerInfo').hide();
 		var m = data.data;
-		console.log(m['winner']);
 		if (m['message'] != ''){
 				$('#message').show();
 				// $('#playerInfo').hide();
@@ -299,7 +295,7 @@ playAs: function(player)
 	this.handi = this.calcHandi($('#selectedHandi').text());
 	this.worker.postMessage({turn:this.computer, ai:1, level:this.AILevel, reset:true, handicap:this.handi});
 	this.drawHandi(this.handi);
-	console.log("handi:  "+this.handi)
+	// console.log("handi:  "+this.handi)
 	//GameSound.playSound('pegsdrop1');
 	GameSound.playMusic(); // Don't wait, iPad doesn't like that
 
@@ -327,7 +323,7 @@ playAs: function(player)
 setStatus: function(text)
 {
 	if (GameConfig.debug) {
-		console.log(text);
+		// console.log(text);
 	}
 },
 
@@ -545,7 +541,7 @@ drawHandi: function(n){
 },
 
 setMessage: function(message){
-	console.log(message);
+	// console.log(message);
 	switch(message){
 		case "suicide":
 			return GameLib.word(190);
