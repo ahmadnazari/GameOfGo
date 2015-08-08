@@ -6,6 +6,8 @@ fonts: [],
 
 turn: -1,
 pegs: [],
+oldOldPegs: [],
+oldOldPegs: [],
 cells: [],
 pegSize: 25,
 last_move: [],
@@ -202,9 +204,29 @@ dropPeg: function(pos, message)
 						$('<img>', {id:'peg_' + j + '_' + i, 'class':'peg', src:'img/' + 'black' + '.gif'})
 							.css({left:(j*this.pegSize)+'px', top:(i * this.pegSize)+'px'})
 							.appendTo('#pegsDiv')
-
 				}
-				// this.pegs[i][j] = pos[i][j]
+				this.oldOldPegs[i][j] = this.oldPegs[i][j];
+				this.oldPegs[i][j] = this.pegs[i][j];
+				this.pegs[i][j] = pos[i][j];
+				if (this.addedRecently(i, j)) {
+					console.log("AddedRecently");
+					$('#peg_' + j + '_' + i).css('border', 'thin red solid')
+				}else if (this.removedRecently) {
+
+					console.log('removedRecently');
+					
+					if (this.oldPegs[i][j]==1*this.computer) {
+						$('<img>', {id:'peg_' + j + '_' + i, 'class':'peg', src:'img/' + 'white'+ '.gif'})
+							.css({left:(j*this.pegSize)+'px', top:(i * this.pegSize)+'px'})
+							.appendTo('#pegsDiv')
+					} else if(this.oldPegs[i][j] == -1*this.computer){
+						$('<img>', {id:'peg_' + j + '_' + i, 'class':'peg', src:'img/' + 'black' + '.gif'})
+							.css({left:(j*this.pegSize)+'px', top:(i * this.pegSize)+'px'})
+							.appendTo('#pegsDiv')
+					}
+
+					$('#peg_' + j + '_' + i).fadeOut(250).fadeIn(250).fadeOut(250).fadeIn(250).fadeOut(250, function() { $(this).remove(); })
+				}
 			}
 		}
 
@@ -287,6 +309,19 @@ playAs: function(player)
 	else {
 		$('#myTurn').hide(); $('#yourTurn').show();
 	}
+	this.pegs = new Array(19);
+	this.oldPegs = new Array(19);
+	this.oldOldPegs = new Array(19);
+	for (var i = 0; i < 19; i++) {
+		this.pegs[i] = new Array(19);
+		this.oldPegs[i] = new Array(19);
+		this.oldOldPegs[i] = new Array(19);
+		for (var j = 0; j < 19; j++) {
+			this.pegs[i][j] = 0;
+			this.oldPegs[i][j] = 0;
+			this.oldOldPegs[i][j] = 0;
+		};
+	};
 },
 
 setStatus: function(text)
@@ -528,6 +563,20 @@ setMessage: function(message){
 			return GameLib.word(194);
 		default :return "";
 	}
+},
+
+addedRecently: function(x, y){
+	if (this.oldPegs[x][y] == 0 && this.pegs[x][y] != 0)
+		return true;
+	if (this.oldOldPegs[x][y] == 0 && this.oldPegs[x][y] != 0)
+		return true;
+	return false;
+},
+
+removedRecently: function(x, y){
+	if (this.oldPegs[x][y] != 0 && this.pegs[x][y] == 0)
+		return true;
+	else return false;
 },
 
 };
