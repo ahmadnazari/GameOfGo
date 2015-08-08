@@ -8,6 +8,10 @@ html {
 	font-family: Arial, Helvetica;
 }
 
+#notEasyModeProgress {
+	width: 100px;
+}
+
 #menuDiv {
 	background: url(../img/GO.jpg);
 	background-size: 800px 480px;

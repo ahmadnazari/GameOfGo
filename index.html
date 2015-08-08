@@ -164,7 +164,8 @@
 			<div class="fancy" style="position:absolute;left:0;width:100%;font-size:24px">
 				<div id="yourTurn" lang="word(177)" style="position:absolute;width:100%;left:0;top:0;text-align:center;display:none"><!-- Your turn --></div>
 				<div id="myTurn" style="position:absolute;width:100%;left:0;top:0;text-align:center">
-					<img src="img/ajax-loader.gif" width="16" height="16">
+					<img id = 'easyModeProgress' src="img/ajax-loader.gif" width="16" height="16">
+					<progress id = 'notEasyModeProgress' max="100" value="0"></progress>
 					<span lang="word(176)"><!-- My turn --></span>
 				</div>
 				<div id="youWin" lang="word(179)" style="position:absolute;width:100%;left:0;top:0;text-align:center;display:none;color:green"><!-- You win --></div>

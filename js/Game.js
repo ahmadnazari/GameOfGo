@@ -248,7 +248,8 @@ initWorker: function()
 	this.worker.addEventListener('message', function(data) {
 		var m = data.data;
 		if (m['think']) {
-			console.log(m['think']);
+			// console.log(m['think']);
+			$('#notEasyModeProgress').val(m['think'] * 100);
 		}else{
 			$('#yourTurn,#myTurn,#youWin,#youLoose,#draw,#message,#playerInfo').hide();
 
@@ -299,6 +300,14 @@ playAs: function(player)
 	this.computer = player * -1;
 	this.handi = this.calcHandi($('#selectedHandi').text());
 	this.worker.postMessage({turn:this.computer, ai:1, level:this.AILevel, reset:true, handicap:this.handi});
+	if (this.AILevel == 1) {
+		$('#easyModeProgress').show();
+		$('#notEasyModeProgress').hide();
+	}
+	else{
+		$('#easyModeProgress').hide();
+		$('#notEasyModeProgress').show();	
+	}
 	this.drawHandi(this.handi);
 	// console.log("handi:  "+this.handi)
 	//GameSound.playSound('pegsdrop1');
