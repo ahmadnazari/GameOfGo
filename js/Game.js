@@ -422,7 +422,7 @@ init: function()
 
 setHandi: function(handi)
 {
-	$('#selectedHandi').html("handi "+handi);
+	$('#selectedHandi').html("handi "+handicap);
 },
 
 calcHandi: function(handiText){

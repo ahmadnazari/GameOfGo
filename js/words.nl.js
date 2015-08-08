@@ -17,7 +17,8 @@ var gameWords = {
 
 103: 'Herstart level',
 104: 'Hoe speel je Game of Go',
-105: 'Verbind 5 of meer dezelfde stenen (horizontaal, verticaal of diagonaal) of sla 10 stenen van je tegenstander. Je kunt 2 verbonden stenen slaan door ze met je eigen stenen te flankeren.',
+105: 'Klassiek bordspel Go. Plaats stenen en verover het grootste territorium.
+',
 110: 'Weet je zeker dat je dit spel wilt herstarten?',
 
 118: 'Makkelijk',

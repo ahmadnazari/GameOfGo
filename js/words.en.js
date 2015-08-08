@@ -22,7 +22,7 @@ var gameWords = {
 103: 'Restart level',
 104: 'How to play',
 
-105: 'Connect 5 or more stones in a row (horizontally, vertically or diagonally) or capture 10 enemy stones. You can capture 2 connected enemy stones by flanking them with your own stones.',
+105: 'Classic board game Go. Place stones and get the biggest territory.',
 110: 'Are you sure you want to reset this game?',
 
 118: 'Easy',

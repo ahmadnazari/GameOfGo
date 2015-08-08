@@ -90,7 +90,15 @@ html {
 	text-align: center;
 }
 
-.menuButs {
+.menuButs0 {
+	position: absolute;
+	top: 283px;
+	left: 300px;
+	text-align: center;
+	width: 100%;
+}
+
+.menuButs1 {
 	position: absolute;
 	top: 307px;
 	text-align: center;

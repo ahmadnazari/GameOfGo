@@ -57,35 +57,39 @@
 
 	<div id="menuDiv">
 
-		<div class="menuButs">
-			<button type="button" class="green awesome" onclick="Game.startGame('easy')" lang="word(118)"><!--Simple--></button>
-			<button type="button" class="yellow awesome" onclick="Game.startGame('medium')" lang="word(119)"><!--Easy--></button>
-			<button type="button" class="red awesome" onclick="Game.startGame('hard')" lang="word(120)"><!--Hard--></button>
-
+		<div class = "menuButs0">
 			<table id="handiSelect">
 			<tbody>
 			<tr>
-				<td onclick="Game.setHandi(0)"><div style="background-position:-180px 0"></div>handi 0</td>
-				<td onclick="Game.setHandi(2)"><div style="background-position:0 0"></div>handi 2</td>
+				<td onclick="Game.setHandi(0)"><div style="background-position:-180px 0"></div>handicap 0</td>
+				<td onclick="Game.setHandi(2)"><div style="background-position:0 0"></div>handicap 2</td>
 			</tr><tr>
-				<td onclick="Game.setHandi(3)"><div style="background-position:-60px 0"></div>handi 3</td>
-				<td onclick="Game.setHandi(4)"><div style="background-position:-140px 0"></div>handi 4</td>
+				<td onclick="Game.setHandi(3)"><div style="background-position:-60px 0"></div>handicap 3</td>
+				<td onclick="Game.setHandi(4)"><div style="background-position:-140px 0"></div>handicap 4</td>
 			</tr><tr>
-				<td onclick="Game.setHandi(5)"><div style="background-position:-80px 0"></div>handi 5</td>
-				<td onclick="Game.setHandi(6)"><div style="background-position:-120px 0"></div>handi 6</td>
+				<td onclick="Game.setHandi(5)"><div style="background-position:-80px 0"></div>handicap 5</td>
+				<td onclick="Game.setHandi(6)"><div style="background-position:-120px 0"></div>handicap 6</td>
 			</tr><tr>
-				<td onclick="Game.setHandi(7)"><div style="background-position:-40px 0"></div>handi 7</td>
-				<td onclick="Game.setHandi(8)"><div style="background-position:-160px 0"></div>handi 8</td>
+				<td onclick="Game.setHandi(7)"><div style="background-position:-40px 0"></div>handicap 7</td>
+				<td onclick="Game.setHandi(8)"><div style="background-position:-160px 0"></div>handicap 8</td>
 			</tr><tr>
-				<td onclick="Game.setHandi(9)"><div style="background-position:-200px 0"></div>handi 9</td>
+				<td onclick="Game.setHandi(9)"><div style="background-position:-200px 0"></div>handicap 9</td>
 			</tr>
 			</tbody>
 			<tfoot>
 			<tr>
-				<td id = "selectedHandi" colspan="2"><div style="background-position:-20px 0"></div>handi 0</td>
+				<td id = "selectedHandi" colspan="2"><div style="background-position:-20px 0"></div>handicap 0</td>
 			</tr>
 			</tfoot>
 			</table>
+		</div>
+
+		<div class="menuButs1">
+			<button type="button" class="green awesome" onclick="Game.startGame('easy')" lang="word(118)"><!--Simple--></button>
+			<button type="button" class="yellow awesome" onclick="Game.startGame('medium')" lang="word(119)"><!--Easy--></button>
+			<button type="button" class="red awesome" onclick="Game.startGame('hard')" lang="word(120)"><!--Hard--></button>
+
+			
 
 		</div><!--/.menuButs-->
 
