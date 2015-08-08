@@ -251,6 +251,7 @@ initWorker: function()
 			// console.log(m['think']);
 			$('#notEasyModeProgress').val(m['think'] * 100);
 		}else{
+			$('#notEasyModeProgress').val(0);
 			$('#yourTurn,#myTurn,#youWin,#youLoose,#draw,#message,#playerInfo').hide();
 
 			if (m['message'] != ''){
