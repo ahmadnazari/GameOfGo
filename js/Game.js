@@ -6,7 +6,7 @@ fonts: [],
 
 turn: -1,
 pegs: [],
-oldOldPegs: [],
+oldPegs: [],
 olderPegs: [],
 cells: [],
 pegSize: 25,
