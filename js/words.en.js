@@ -41,6 +41,7 @@ var gameWords = {
 178: 'You loose',
 179: 'You win',
 180: 'draw',
+181: 'computer',
 190: 'No suicide!',
 191: 'Ko rule',
 192: 'The computer passed. End of game.',

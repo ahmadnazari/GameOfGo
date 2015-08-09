@@ -44,6 +44,14 @@ html {
 	text-shadow: 1px 1px 1px #000;
 }
 
+.boardButton{
+	margin: 12px;
+}
+
+.info{
+	margin: 0px;
+}
+
 .header {
 	padding: 10px 0;
 }

@@ -4604,7 +4604,7 @@ function Logic()
 
     this.drawTiles = function(board, canDrop)
     {
-        self.postMessage({board:board, message:this.message, winner:this.winner, canDrop:canDrop});
+        self.postMessage({board:board, message:this.message, winner:this.winner, canDrop:canDrop, one:this.board[3][2], two:this.board[3][3]});
     }
 }
 

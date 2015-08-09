@@ -143,19 +143,27 @@
 			</div>
 
 			<div class="fancy">
-				<p>
+				<p class = "boardButton">
 					<button class="large awesome black" onclick="Game.restart(-1)" style="width:55%" lang="word(172)"><!-- Start As Black --></button>
 				</p>
-				<p>
+				<p class = "boardButton">
 					<button class="large awesome white" onclick="Game.restart(1)" style="width:55%" lang="word(173)"><!-- Start As White --></button>
 				</p>
-				<p>
+				<p class = "boardButton">
 					<button class="large awesome yellow" onclick="Game.pass()" style="width:55%" lang="word(175)"><!-- Pass --></button>
 				</p>
-				<p id = "playerInfo">
+				<p class = "info" id = "playerInfo">
+					<span id="playerScore"></span>
 					<span lang="word(174)"></span>:
 					<img id="playerImg" src="img/white.gif" width="40" height="40" align="absmiddle">
 				</p>
+
+				<p class = "info" id = "comuterInfo">
+					<span id="computerScore"></span>
+					<span lang="word(181)"></span>:
+					<img id="computerImg" src="img/black.gif" width="40" height="40" align="absmiddle">
+				</p>
+
 				<p>
 					<span id="message"></span>
 				</p>

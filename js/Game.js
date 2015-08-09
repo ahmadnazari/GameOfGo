@@ -155,7 +155,7 @@ showGame: function()
 // player == 2: computer
 win: function(winner, message)
 {
-		$('#yourTurn,#myTurn,#youWin,#youLoose,#draw,#playerInfo').hide();
+		$('#yourTurn,#myTurn,#youWin,#youLoose,#draw,#playerInfo,#comuterInfo').hide();
 
 	Game.gameActive = false;
 	GameSound.stopMusic();
@@ -164,11 +164,13 @@ win: function(winner, message)
 	switch(winner){
 		case "computer":
 			$('#youLoose').fadeIn();
+			$('#message').show();
 			$('#message').text(GameLib.word(195)+ message + GameLib.word(197));
 			break;
 
 		case "player":
 			$('#youWin').fadeIn();
+			$('#message').show();
 			GameSound.playSound('youwin');
 			$('#message').text(GameLib.word(196)+ message + GameLib.word(197));
 			break;
@@ -210,7 +212,7 @@ dropPeg: function(pos, message)
 				this.pegs[i][j] = pos[i][j];
 				if (this.addedRecently(i, j))
 					$('#peg_' + j + '_' + i).css('border', 'thin red solid')
-				else if (this.removedRecently(i, j)) {
+				if (this.removedRecently(i, j)) {
 
 					if (this.oldPegs[i][j]==1*this.computer) {
 						$('<img>', {id:'peg_' + j + '_' + i, 'class':'peg', src:'img/' + 'white'+ '.gif'})
@@ -247,21 +249,30 @@ initWorker: function()
 	var _this = this;
 	this.worker.addEventListener('message', function(data) {
 		var m = data.data;
+		// console.log("one: "+[m['one']]);
+		if (_this.player==1) {
+			playerScore = m['one'];
+			computerScore = m['two'];
+		}else{
+			playerScore = m['two'];
+			computerScore = m['one'];
+		}
+		$('#playerScore').text("("+playerScore+")");
+		$('#computerScore').text("("+computerScore+")");
+		// console.log("two: "+[m['two']]);
 		if (m['think']) {
-			// console.log(m['think']);
 			$('#notEasyModeProgress').val(m['think'] * 100);
 		}else{
 			$('#notEasyModeProgress').val(0);
-			$('#yourTurn,#myTurn,#youWin,#youLoose,#draw,#message,#playerInfo').hide();
+			$('#youWin,#youLoose,#draw,#message,#playerInfo,#comuterInfo').hide();
 
 			if (m['message'] != ''){
 					$('#message').show();
-					// $('#playerInfo').hide();
+					setTimeout(function(){$('#message').hide();$('#playerInfo,#comuterInfo').show();}, 1000);
 					$('#message').text(_this.setMessage(m['message']));
 				}
 				else{
-					// $('#message').hide();
-					$('#playerInfo').show();
+					$('#playerInfo,#comuterInfo').show();
 			}
 			if (m['winner'] != null) {
 				var winner = m['winner'];
@@ -272,15 +283,23 @@ initWorker: function()
 			else{
 				if (m['canDrop']) {
 					_this.turn*=-1;
+					_this.dropPeg(m['board'], m['canDrop'])}
 
 					if (_this.turn == _this.player) {
-					/*$('#myTurn').hide();*/ $('#yourTurn').show();
+						setTimeout(function(){$('#myTurn').hide();},100);
+						if (m['message'] == '')
+							setTimeout(function(){$('#yourTurn').show();},100);
+						else
+							setTimeout(function(){$('#yourTurn').show();},1000);
 					}
 					else {
-						/*$('#yourTurn').hide();*/ $('#myTurn').show();
+						setTimeout(function(){$('#yourTurn').hide();},100);
+						if (m['message'] == '')
+							setTimeout(function(){$('#myTurn').show();},100);
+						else
+							setTimeout(function(){$('#myTurn').show();},1000);
 					}
-					_this.dropPeg(m['board'], m['canDrop'])
-				}
+				// }
 			}
 		}
 	})
@@ -292,9 +311,11 @@ playAs: function(player)
 	$('.peg').remove();
 	Game.gameActive = true;
 
-	var color = (player == 1) ? 'white' : 'black';
+	var playerColor = (player == 1) ? 'white' : 'black';
+	var computerColor = (player == 1) ? 'black' : 'white';
 
-	$('#playerImg').prop('src', 'img/' + color + '.gif');
+	$('#playerImg').prop('src', 'img/' + playerColor + '.gif');
+	$('#computerImg').prop('src', 'img/' + computerColor + '.gif');
 
 	this.turn = -1;
 	this.player = player;

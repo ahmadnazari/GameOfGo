@@ -37,7 +37,8 @@ var gameWords = {
 178: 'You loose', // TODO
 179: 'You win', // TODO
 180: 'draw', // TODO
-'No suicide!', // TODO
+181: 'computer', // TODO
+190: 'No suicide!', // TODO
 191: 'Ko rule', // TODO
 192: 'The computer passed. End of game.', // TODO
 193: 'The computer passed', // TODO

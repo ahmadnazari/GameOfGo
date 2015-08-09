@@ -36,6 +36,7 @@ var gameWords = {
 178: 'Ik win',
 179: 'Jij wint',
 180: 'draw', // TODO
+181: 'computer', // TODO
 190: 'No suicide!', // TODO
 191: 'Ko rule', // TODO
 192: 'The computer passed. End of game.', // TODO
