@@ -17,6 +17,10 @@ html {
 	background-size: 800px 480px;
 }
 
+#message{
+	margin: 0px;
+}
+
 #gameContainer > div {
 	position: absolute;
 	top: 0;

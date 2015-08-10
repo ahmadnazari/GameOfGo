@@ -50,7 +50,7 @@ var gameWords = {
 
 195: 'Computer wins with ',
 196: 'you win with ',
-197: ' extra points',
+197: ' pts',
 
 
 };

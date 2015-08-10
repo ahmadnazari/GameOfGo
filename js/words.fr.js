@@ -45,7 +45,7 @@ var gameWords = {
 
 195: 'Computer wins with ', // TODO
 196: 'you win with ', // TODO
-197: ' extra points', // TODO
+197: ' pts', // TODO
 
 
 

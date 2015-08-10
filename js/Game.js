@@ -165,14 +165,14 @@ win: function(winner, message)
 		case "computer":
 			$('#youLoose').fadeIn();
 			$('#message').show();
-			$('#message').text(GameLib.word(195)+ message + GameLib.word(197));
+			$('#message span').text(GameLib.word(195)+ message + GameLib.word(197));
 			break;
 
 		case "player":
 			$('#youWin').fadeIn();
 			$('#message').show();
 			GameSound.playSound('youwin');
-			$('#message').text(GameLib.word(196)+ message + GameLib.word(197));
+			$('#message span').text(GameLib.word(196)+ message + GameLib.word(197));
 			break;
 
 		case "draw":
@@ -250,13 +250,13 @@ initWorker: function()
 	this.worker.addEventListener('message', function(data) {
 		var m = data.data;
 		// console.log("one: "+[m['one']]);
-		if (_this.player==1) {
-			playerScore = m['one'];
-			computerScore = m['two'];
-		}else{
+		// if (_this.player==1) {
+			// playerScore = m['one'];
+			// computerScore = m['two'];
+		// }else{
 			playerScore = m['two'];
 			computerScore = m['one'];
-		}
+		// }
 		if (playerScore != undefined && computerScore != undefined) {
 			$('#playerScore').text("("+playerScore+")");
 			$('#computerScore').text("("+computerScore+")");
@@ -270,12 +270,14 @@ initWorker: function()
 
 			if (m['message'] != ''){
 					$('#message').show();
-					setTimeout(function(){$('#message').hide();$('#playerInfo,#comuterInfo').show();}, 1000);
-					$('#message').text(_this.setMessage(m['message']));
+					setTimeout(function(){if (Game.gameActive)$('#message').hide();$('#playerInfo,#comuterInfo').show();}, 1000);
+					$('#message span').text(_this.setMessage(m['message']));
 				}
 				else{
 					$('#playerInfo,#comuterInfo').show();
 			}
+			// if (!Game.gameActive)
+			// 	$('#message').show();
 			if (m['winner'] != null) {
 				var winner = m['winner'];
 				// $('#yourTurn,#myTurn,#youWin,#youLoose,#draw').hide();
@@ -288,18 +290,18 @@ initWorker: function()
 					_this.dropPeg(m['board'], m['canDrop'])}
 
 					if (_this.turn == _this.player) {
-						setTimeout(function(){$('#myTurn').hide();},100);
+						setTimeout(function(){if(Game.gameActive) $('#myTurn').hide()},100);
 						if (m['message'] == '')
-							setTimeout(function(){$('#yourTurn').show();},100);
+							setTimeout(function(){if(Game.gameActive) $('#yourTurn').show()},100);
 						else
-							setTimeout(function(){$('#yourTurn').show();},1000);
+							setTimeout(function(){if(Game.gameActive) $('#yourTurn').show()},1000);
 					}
 					else {
-						setTimeout(function(){$('#yourTurn').hide();},100);
+						setTimeout(function(){if(Game.gameActive) $('#yourTurn').hide()},100);
 						if (m['message'] == '')
-							setTimeout(function(){$('#myTurn').show();},100);
+							setTimeout(function(){if(Game.gameActive) $('#myTurn').show()},100);
 						else
-							setTimeout(function(){$('#myTurn').show();},1000);
+							setTimeout(function(){if(Game.gameActive) $('#myTurn').show()},1000);
 					}
 				// }
 			}
@@ -366,7 +368,7 @@ setStatus: function(text)
 },
 
 pass: function(){
-	if (this.turn == this.player) {
+	if (this.turn == this.player && Game.gameActive) {
 		this.turn *= -1;
 		$('#yourTurn').hide(); $('#myTurn').show();
 		this.worker.postMessage({pass:true, handicap:this.handi});
@@ -446,7 +448,7 @@ create: function ()
 			})
 
 			.on('click', function(sprite, col, row){ return function () {
-				if (_this.turn == _this.player) {
+				if (_this.turn == _this.player && Game.gameActive) {
 					_this.playOn(col, row, _this.player);
 				}
 			}}(rectGraphics, i,j));
