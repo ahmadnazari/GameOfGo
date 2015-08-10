@@ -314,6 +314,7 @@ playAs: function(player)
 	$('#youWin,#youLoose,#draw').hide();
 	$('.peg').remove();
 	Game.gameActive = true;
+	$('#computerScore,#playerScore').text('(0)');
 
 	var playerColor = (player == 1) ? 'white' : 'black';
 	var computerColor = (player == 1) ? 'black' : 'white';
