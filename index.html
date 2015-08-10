@@ -57,7 +57,7 @@
 
 	<div id="menuDiv">
 
-		<div class = "menuButs0">
+		<div class="menuButs0">
 			<table id="handiSelect">
 			<tbody>
 			<tr>
@@ -78,7 +78,7 @@
 			</tbody>
 			<tfoot>
 			<tr>
-				<td id = "selectedHandi" colspan="2"><div style="background-position:-20px 0"></div>handicap 0</td>
+				<td id="selectedHandi" colspan="2"><div style="background-position:-20px 0"></div>handicap 0</td>
 			</tr>
 			</tfoot>
 			</table>
@@ -141,28 +141,28 @@
 			</div>
 
 			<div class="fancy">
-				<p class = "boardButton" style="margin-top:20px">
+				<p class="boardButton" style="margin-top:20px">
 					<button class="large awesome black" onclick="Game.restart(-1)" style="width:55%" lang="word(172)"><!-- Start As Black --></button>
 				</p>
-				<p class = "boardButton">
+				<p class="boardButton">
 					<button class="large awesome white" onclick="Game.restart(1)" style="width:55%" lang="word(173)"><!-- Start As White --></button>
 				</p>
-				<p class = "boardButton">
+				<p class="boardButton">
 					<button class="large awesome yellow" onclick="Game.pass()" style="width:55%" lang="word(175)"><!-- Pass --></button>
 				</p>
-				<p class = "info" id = "playerInfo">
+				<p id="playerInfo" class="info">
 					<span id="playerScore"></span>
 					<span lang="word(174)"></span>:
 					<img id="playerImg" src="img/white.gif" width="40" height="40" align="absmiddle">
 				</p>
 
-				<p class = "info" id = "comuterInfo">
+				<p id="comuterInfo" class="info">
 					<span id="computerScore"></span>
 					<span lang="word(181)"></span>:
 					<img id="computerImg" src="img/black.gif" width="40" height="40" align="absmiddle">
 				</p>
 
-				<p id="message">
+				<p id="message" class="info">
 					<span ></span>
 				</p>
 			</div>
@@ -170,10 +170,10 @@
 			<div class="fancy" style="position:absolute;left:0;width:100%;font-size:24px">
 				<div id="yourTurn" lang="word(177)" style="position:absolute;width:100%;left:0;top:0;text-align:center;display:none"><!-- Your turn --></div>
 				<div id="myTurn" style="position:absolute;width:100%;left:0;top:0;text-align:center">
-					<img id = 'easyModeProgress' src="img/ajax-loader.gif" width="16" height="16">
+					<img id='easyModeProgress' src="img/ajax-loader.gif" width="16" height="16">
 					<span lang="word(176)"><!-- My turn --></span>
 					<br>
-					<progress id = 'notEasyModeProgress' max="100" value="0"></progress>
+					<progress id='notEasyModeProgress' max="100" value="0"></progress>
 				</div>
 				<div id="youWin" lang="word(179)" style="position:absolute;width:100%;left:0;top:0;text-align:center;display:none;color:green"><!-- You win --></div>
 				<div id="youLoose" lang="word(178)" style="position:absolute;width:100%;left:0;top:0;text-align:center;display:none;color:red"><!-- You loose --></div>
@@ -203,7 +203,7 @@
 </div>
 
 <script>
-	var gameName = document.title;
+	var gameName=document.title;
 	GameLib.init(gameName, 800,480);
 </script>
 </body>

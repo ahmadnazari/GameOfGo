@@ -322,6 +322,20 @@ playAs: function(player)
 	$('#playerImg').prop('src', 'img/' + playerColor + '.gif');
 	$('#computerImg').prop('src', 'img/' + computerColor + '.gif');
 
+	this.pegs = new Array(19);
+	this.oldPegs = new Array(19);
+	this.olderPegs = new Array(19);
+	for (var i = 0; i < 19; i++) {
+		this.pegs[i] = new Array(19);
+		this.oldPegs[i] = new Array(19);
+		this.olderPegs[i] = new Array(19);
+		for (var j = 0; j < 19; j++) {
+			this.pegs[i][j] = 0;
+			this.oldPegs[i][j] = 0;
+			this.olderPegs[i][j] = 0;
+		};
+	};
+
 	this.turn = -1;
 	this.player = player;
 	this.computer = player * -1;
@@ -346,19 +360,6 @@ playAs: function(player)
 	else {
 		$('#myTurn').hide(); $('#yourTurn').show();
 	}
-	this.pegs = new Array(19);
-	this.oldPegs = new Array(19);
-	this.olderPegs = new Array(19);
-	for (var i = 0; i < 19; i++) {
-		this.pegs[i] = new Array(19);
-		this.oldPegs[i] = new Array(19);
-		this.olderPegs[i] = new Array(19);
-		for (var j = 0; j < 19; j++) {
-			this.pegs[i][j] = 0;
-			this.oldPegs[i][j] = 0;
-			this.olderPegs[i][j] = 0;
-		};
-	};
 },
 
 setStatus: function(text)
@@ -572,9 +573,10 @@ drawHandi: function(n){
 	for (var i = 0; i < positions.length; i++) {
 		x = positions[i][0];
 		y = positions[i][1];
+		this.pegs[x][y] = 1;
 		$('<img>', {id:'peg_' + x + '_' + y, 'class':'peg', src:'img/' + 'black' + '.gif'})
 							.css({left:(x*this.pegSize)+'px', top:(y * this.pegSize)+'px'})
-							.appendTo('#pegsDiv')
+							.appendTo('#pegsDiv').css('border', 'thin red solid')
 	};
 	if(n != 0){
 		this.turn *=-1;
