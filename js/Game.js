@@ -257,8 +257,10 @@ initWorker: function()
 			playerScore = m['two'];
 			computerScore = m['one'];
 		}
-		$('#playerScore').text("("+playerScore+")");
-		$('#computerScore').text("("+computerScore+")");
+		if (playerScore != undefined && computerScore != undefined) {
+			$('#playerScore').text("("+playerScore+")");
+			$('#computerScore').text("("+computerScore+")");
+		}
 		// console.log("two: "+[m['two']]);
 		if (m['think']) {
 			$('#notEasyModeProgress').val(m['think'] * 100);

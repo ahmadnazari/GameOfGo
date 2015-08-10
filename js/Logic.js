@@ -4615,6 +4615,7 @@ logic.nieuwSpel(1);
         var m = data.data;
             logic.handicap = m['handicap'];
         if (m['pass']) {
+            logic.message = '';
             logic.pass();
         }
         else{
