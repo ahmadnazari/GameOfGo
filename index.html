@@ -143,7 +143,7 @@
 			</div>
 
 			<div class="fancy">
-				<p class = "boardButton">
+				<p class = "boardButton" style="margin-top:20px">
 					<button class="large awesome black" onclick="Game.restart(-1)" style="width:55%" lang="word(172)"><!-- Start As Black --></button>
 				</p>
 				<p class = "boardButton">
@@ -170,11 +170,12 @@
 			</div>
 
 			<div class="fancy" style="position:absolute;left:0;width:100%;font-size:24px">
-				<div id="yourTurn" lang="word(177)" style="position:absolute;width:100%;left:0;top:0;text-align:center;display:none"><!-- Your turn --></div>
-				<div id="myTurn" style="position:absolute;width:100%;left:0;top:0;text-align:center">
+				<div id="yourTurn" lang="word(177)" style="position:absolute;width:100%;left:0;top:-17px;text-align:center;display:none"><!-- Your turn --></div>
+				<div id="myTurn" style="position:absolute;width:100%;left:0;top:-17px;text-align:center">
 					<img id = 'easyModeProgress' src="img/ajax-loader.gif" width="16" height="16">
-					<progress id = 'notEasyModeProgress' max="100" value="0"></progress>
 					<span lang="word(176)"><!-- My turn --></span>
+					<br>
+					<progress id = 'notEasyModeProgress' max="100" value="0"></progress>
 				</div>
 				<div id="youWin" lang="word(179)" style="position:absolute;width:100%;left:0;top:0;text-align:center;display:none;color:green"><!-- You win --></div>
 				<div id="youLoose" lang="word(178)" style="position:absolute;width:100%;left:0;top:0;text-align:center;display:none;color:red"><!-- You loose --></div>
