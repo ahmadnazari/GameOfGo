@@ -494,7 +494,7 @@ init: function()
 
 setHandi: function(handi)
 {
-	$('#selectedHandi').html("handi "+handicap);
+	$('#selectedHandi').html("handicap "+handi);
 },
 
 calcHandi: function(handiText){
