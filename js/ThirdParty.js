@@ -8,7 +8,7 @@ enableFullscreenToggle: true,
 // Called when all assets have been loaded
 loadingComplete: function()
 {
-	 // console.log('API: loadingComplete');
+	 //console.log('API: loadingComplete');
 },
 
 // Called when the main menu is showed
