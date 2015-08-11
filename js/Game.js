@@ -311,6 +311,9 @@ initWorker: function()
 
 playAs: function(player)
 {
+	this.worker.terminate();
+	this.worker = new Worker('js/Logic.js');
+	Game.initWorker();
 	$('#youWin,#youLoose,#draw').hide();
 	$('.peg').remove();
 	Game.gameActive = true;
