@@ -17,8 +17,7 @@ var gameWords = {
 
 103: 'Herstart level',
 104: 'Hoe speel je Game of Go',
-105: 'Klassiek bordspel Go. Plaats stenen en verover het grootste territorium.
-',
+105: 'Klassiek bordspel Go. Plaats stenen en verover het grootste territorium.',
 110: 'Weet je zeker dat je dit spel wilt herstarten?',
 
 118: 'Makkelijk',
