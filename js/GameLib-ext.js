@@ -132,7 +132,7 @@ var GameLib = {
 					loadImages();
 				}
 				else {
-					if (callback) { setTimeout(callback , 200); }
+					if (callback) { setTimeout(callback, 200); }
 					ThirdParty.loadingComplete();
 	 				setTimeout(function(){$('#loading').remove()}, 500);
 				}
