@@ -31,7 +31,7 @@ restart: function(player)
 
 	if (player)
 		Game.player = player;
-	$('.peg').remove();
+	setTimeout(function(){$('.peg').remove()}, 100);
 	$('#yourTurn,#myTurn,#youWin,#youLoose,#draw').hide();
 
 	Game.world.addClass('rotateOut animated1s').one(GameLib.animEnd, function(){
